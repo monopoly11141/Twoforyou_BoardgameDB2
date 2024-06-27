@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
+    id("com.google.dagger.hilt.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -66,4 +69,35 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //navigation
+    implementation(libs.navgiation.compose)
+    //serialization for navigation
+    implementation(libs.kotlinx.serialization.json)
+    //hilt
+    implementation(libs.androidx.hilt.navigation.fragment)
+    implementation(libs.androidx.hilt.work)
+    kapt(libs.androidx.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    //work
+    implementation(libs.androidx.work.runtime.ktx)
+    //retrofit
+    implementation (libs.retrofit)
+    implementation (libs.logging.interceptor)
+    //gson converter
+    implementation (libs.converter.gson)
+    //tikxml
+    implementation (libs.annotation)
+    implementation (libs.core)
+    implementation (libs.retrofit.converter)
+    kapt (libs.processor)
+    //room
+    implementation(libs.androidx.room.ktx)
+    implementation( libs.androidx.room.runtime)
+    annotationProcessor (libs.androidx.room.room.compiler)
+    kapt (libs.androidx.room.room.compiler)
+
+
 }
