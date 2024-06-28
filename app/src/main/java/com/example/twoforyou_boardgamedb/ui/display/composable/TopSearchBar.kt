@@ -60,9 +60,9 @@ fun TopSearchBar(
 
     Row(modifier) {
         TextField(
-            value = boardgameSearchQuery,
+            value = state.searchQuery,
             onValueChange = { searchQuery ->
-                boardgameSearchQuery = searchQuery
+                viewModel.setSearchQuery(searchQuery)
             },
             trailingIcon = {
                 Row(
@@ -131,7 +131,6 @@ fun TopSearchBar(
                                 onClick = {
                                     viewModel.updateDisplayOrder(displayOrderEntry)
                                     viewModel.setBottomBarLabelText()
-                                    viewModel.updateDisplayBoardgame()
 
                                     expandOrderDropDownMenu = false
                                 }

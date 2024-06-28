@@ -8,5 +8,6 @@ data class DisplayUiState(
     val displayBoardgameList: List<BoardgameItem> = emptyList(),
     val displayOrder: DISPLAY_ORDER = DISPLAY_ORDER.ALPHABETICAL,
     val bottomBarLabelText: String = "전체",
-    val showAddBoardgameDialog : Boolean = false
+    val showAddBoardgameDialog : Boolean = false,
+    val searchQuery: String = ""
 )

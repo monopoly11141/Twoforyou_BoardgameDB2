@@ -1,7 +1,9 @@
 package com.example.twoforyou_boardgamedb.ui.display
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.twoforyou_boardgamedb.data.db.local.BoardgameDb
 import com.example.twoforyou_boardgamedb.data.model.BoardgameItem
 import com.example.twoforyou_boardgamedb.domain.display.DisplayRepository
 import com.example.twoforyou_boardgamedb.ui.display.util.DISPLAY_ORDER
@@ -24,17 +26,10 @@ class DisplayViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update {
                 it.copy(
-                    boardgameItemList = repository.getAllBoardgameItem().stateIn(viewModelScope).value,
-                    displayBoardgameList = repository.getAllBoardgameItem().stateIn(viewModelScope).value,
+                    boardgameItemList = repository.getAllBoardgameItem().stateIn(viewModelScope).value
                 )
-            }.run {
-                for(boardgameItem in state.value.boardgameItemList) {
-                    updateBoardgameItemFromApi(boardgameItem)
-                }
             }
         }
-
-
     }
 
     fun insertBoardgameItemToDb(url: String): Boolean {
@@ -98,7 +93,7 @@ class DisplayViewModel @Inject constructor(
             _state.update {
                 it.copy(
                     boardgameItemList = repository.getAllBoardgameItem()
-                        .stateIn(viewModelScope).value
+                        .stateIn(viewModelScope).value,
                 )
             }
         }
@@ -188,16 +183,33 @@ class DisplayViewModel @Inject constructor(
         }
     }
 
-    fun updateDisplayBoardgame() {
+    fun updateDisplayBoardgame(boardgameList: List<BoardgameItem>, searchQuery: String) {
         _state.update {
             it.copy(
                 displayBoardgameList = when(_state.value.displayOrder) {
-                    DISPLAY_ORDER.ALPHABETICAL -> state.value.boardgameItemList
-                    DISPLAY_ORDER.FAVORITE -> state.value.boardgameItemList.filter { it.isFavorite }
-                    DISPLAY_ORDER.NON_FAVORITE -> state.value.boardgameItemList.filter { !it.isFavorite }
-                    DISPLAY_ORDER.RANKING -> state.value.boardgameItemList.sortedBy { it.ranking }
-                    DISPLAY_ORDER.WEIGHT -> state.value.boardgameItemList.sortedBy { it.averageWeight }
+                    DISPLAY_ORDER.ALPHABETICAL -> boardgameList
+                    DISPLAY_ORDER.FAVORITE -> boardgameList.filter { it.isFavorite }
+                    DISPLAY_ORDER.NON_FAVORITE -> boardgameList.filter { !it.isFavorite }
+                    DISPLAY_ORDER.RANKING -> boardgameList.sortedBy { it.ranking }
+                    DISPLAY_ORDER.WEIGHT -> boardgameList.sortedBy { it.averageWeight }
                 }
+            )
+        }
+        _state.update {
+            it.copy(
+                displayBoardgameList = if(searchQuery.isBlank()) {
+                    _state.value.displayBoardgameList
+                }else {
+                    _state.value.displayBoardgameList.filter {boardgame -> boardgame.englishName.contains(searchQuery, ignoreCase = true) || boardgame.koreanName.contains(searchQuery, ignoreCase = true)}
+                }
+            )
+        }
+    }
+
+    fun setSearchQuery(searchQuery: String) {
+        _state.update {
+            it.copy(
+                searchQuery = searchQuery
             )
         }
     }

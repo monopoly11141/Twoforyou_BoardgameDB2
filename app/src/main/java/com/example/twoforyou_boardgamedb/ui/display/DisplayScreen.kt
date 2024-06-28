@@ -43,7 +43,14 @@ fun DisplayScreen(
     viewModel: DisplayViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    //updating all boardgame item data from api
+
+    viewModel.updateDisplayBoardgame(state.boardgameItemList, state.searchQuery)
+
+    LaunchedEffect(key1 = Unit) {
+        for(boardgameItem in state.boardgameItemList) {
+            viewModel.updateBoardgameItemFromApi(boardgameItem)
+        }
+    }
 
     Scaffold(
         floatingActionButton =
