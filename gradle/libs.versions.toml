@@ -18,6 +18,7 @@ loggingInterceptor = "4.9.3"
 annotation = "0.8.13"
 roomKtx = "2.6.1"
 converterGson = "2.9.0"
+coilCompose = "2.6.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -53,7 +54,7 @@ androidx-room-room-compiler = { module = "androidx.room:room-compiler", version.
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomKtx" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 processor = { module = "com.tickaroo.tikxml:processor", version.ref = "annotation" }
-
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 
 
 [plugins]

@@ -20,6 +20,23 @@ class DisplayViewModel @Inject constructor(
     private val _state = MutableStateFlow(DisplayUiState())
     val state = _state.asStateFlow()
 
+    init {
+        viewModelScope.launch {
+            _state.update {
+                it.copy(
+                    boardgameItemList = repository.getAllBoardgameItem().stateIn(viewModelScope).value,
+                    displayBoardgameList = repository.getAllBoardgameItem().stateIn(viewModelScope).value,
+                )
+            }.run {
+                for(boardgameItem in state.value.boardgameItemList) {
+                    updateBoardgameItemFromApi(boardgameItem)
+                }
+            }
+        }
+
+
+    }
+
     fun insertBoardgameItemToDb(url: String): Boolean {
         var id = -1
         try {
@@ -103,7 +120,8 @@ class DisplayViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update {
                 it.copy(
-                    displayBoardgmaeList = if (searchQuery.isBlank()) {
+                    displayBoardgameList =
+                    if (searchQuery.isBlank()) {
                         state.value.boardgameItemList
                     } else {
                         repository.getBoardgameFromKeyword(searchQuery)
@@ -121,13 +139,12 @@ class DisplayViewModel @Inject constructor(
                 displayOrder = displayOrder
             )
         }
-
     }
 
-    fun bottomBarLabelText(displayOrder: DISPLAY_ORDER) {
+    fun setBottomBarLabelText() {
         _state.update {
             it.copy(
-                bottomBarLabelText = when (displayOrder) {
+                bottomBarLabelText = when (_state.value.displayOrder) {
                     DISPLAY_ORDER.ALPHABETICAL -> "전체"
                     DISPLAY_ORDER.FAVORITE -> "즐겨찾기"
                     DISPLAY_ORDER.NON_FAVORITE -> "즐겨찾기 제외"
@@ -161,6 +178,28 @@ class DisplayViewModel @Inject constructor(
             filteredBoardgameId.add(it.id)
         }
         return filteredBoardgameId
+    }
+
+    fun setShowAddBoardgameDialog(showAddBoardgameDialog : Boolean) {
+        _state.update {
+            it.copy(
+                showAddBoardgameDialog = showAddBoardgameDialog
+            )
+        }
+    }
+
+    fun updateDisplayBoardgame() {
+        _state.update {
+            it.copy(
+                displayBoardgameList = when(_state.value.displayOrder) {
+                    DISPLAY_ORDER.ALPHABETICAL -> state.value.boardgameItemList
+                    DISPLAY_ORDER.FAVORITE -> state.value.boardgameItemList.filter { it.isFavorite }
+                    DISPLAY_ORDER.NON_FAVORITE -> state.value.boardgameItemList.filter { !it.isFavorite }
+                    DISPLAY_ORDER.RANKING -> state.value.boardgameItemList.sortedBy { it.ranking }
+                    DISPLAY_ORDER.WEIGHT -> state.value.boardgameItemList.sortedBy { it.averageWeight }
+                }
+            )
+        }
     }
 
 }

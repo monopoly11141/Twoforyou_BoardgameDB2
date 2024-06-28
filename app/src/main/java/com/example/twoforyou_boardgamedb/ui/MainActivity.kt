@@ -24,15 +24,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Twoforyou_BoardgameDBTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Column(
-                        modifier = Modifier
-                        .padding(innerPadding)
-                    ) {
-                        val navController = rememberNavController()
-                        Navigation(navController)
-                    }
-                }
+                val navController = rememberNavController()
+                Navigation(navController)
             }
         }
     }

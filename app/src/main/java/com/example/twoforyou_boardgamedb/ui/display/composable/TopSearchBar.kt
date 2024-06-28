@@ -20,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,8 +49,6 @@ fun TopSearchBar(
     var boardgameSearchQuery by remember { mutableStateOf("") }
     var displayIcon by remember { mutableStateOf(Icons.Filled.KeyboardArrowDown) }
     var openFilterDialog by remember { mutableStateOf(false) }
-
-    viewModel.updateDisplayingBoardgameItemList(boardgameSearchQuery)
 
     displayIcon = when (state.displayOrder) {
         DISPLAY_ORDER.ALPHABETICAL -> Icons.Filled.KeyboardArrowDown
@@ -131,6 +130,9 @@ fun TopSearchBar(
                                 },
                                 onClick = {
                                     viewModel.updateDisplayOrder(displayOrderEntry)
+                                    viewModel.setBottomBarLabelText()
+                                    viewModel.updateDisplayBoardgame()
+
                                     expandOrderDropDownMenu = false
                                 }
                             )
