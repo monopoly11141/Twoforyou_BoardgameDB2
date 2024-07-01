@@ -2,7 +2,6 @@ package com.example.twoforyou_boardgamedb.ui.display.composable
 
 import android.icu.text.DecimalFormat
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -49,9 +48,7 @@ import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.twoforyou_boardgamedb.data.model.BoardgameItem
-import com.example.twoforyou_boardgamedb.navigation.Screen
 import com.example.twoforyou_boardgamedb.ui.display.DisplayViewModel
-
 import java.math.RoundingMode
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -83,11 +80,6 @@ fun Boardgame(
                 alpha = 0.2f,
                 alignment = Alignment.CenterEnd
             )
-            .clickable {
-                navController.navigate(
-                    Screen.DetailScreen(boardgameItem.id)
-                )
-            }
             .fillMaxHeight()
     ) {
         Row(
@@ -157,8 +149,7 @@ fun Boardgame(
                                 radius = this.size.maxDimension / 2.0f
                             )
                         }
-                        .padding(horizontal = 16.dp)
-                    ,
+                        .padding(horizontal = 16.dp),
                     text = df.format(boardgameItem.bayesAverageValue),
                 )
             }

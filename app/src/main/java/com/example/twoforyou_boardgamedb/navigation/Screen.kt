@@ -7,11 +7,6 @@ sealed class Screen() {
     object DisplayScreen
 
     @Serializable
-    data class DetailScreen(
-        val id: Int = 0
-    )
-
-    @Serializable
     data class FilterScreen(
         val idList: List<Int> = emptyList()
     )

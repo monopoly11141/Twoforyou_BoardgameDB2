@@ -77,11 +77,6 @@ fun FilterBoardgameItem(
                 alpha = 0.2f,
                 alignment = Alignment.CenterEnd
             )
-            .clickable {
-                navController.navigate(
-                    Screen.DetailScreen(boardgameItem.id)
-                )
-            }
             .fillMaxHeight()
     ) {
         Row(
