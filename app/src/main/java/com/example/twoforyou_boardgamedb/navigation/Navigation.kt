@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.example.twoforyou_boardgamedb.ui.detail.DetailScreen
 import com.example.twoforyou_boardgamedb.ui.display.DisplayScreen
 import com.example.twoforyou_boardgamedb.ui.filter.FilterScreen
@@ -29,8 +30,10 @@ fun Navigation(navController: NavHostController) {
         }
 
         composable<Screen.FilterScreen> {
+            val args = it.toRoute<Screen.FilterScreen>()
             FilterScreen(
-                navController = navController
+                navController = navController,
+                args.idList
             )
         }
 

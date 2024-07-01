@@ -29,6 +29,9 @@ class DisplayViewModel @Inject constructor(
                     boardgameItemList = repository.getAllBoardgameItem().stateIn(viewModelScope).value
                 )
             }
+            for (boardgameItem in _state.value.boardgameItemList) {
+                updateBoardgameItemFromApi(boardgameItem)
+            }
         }
     }
 
@@ -111,22 +114,6 @@ class DisplayViewModel @Inject constructor(
         }
     }
 
-    fun updateDisplayingBoardgameItemList(searchQuery: String) {
-        viewModelScope.launch {
-            _state.update {
-                it.copy(
-                    displayBoardgameList =
-                    if (searchQuery.isBlank()) {
-                        state.value.boardgameItemList
-                    } else {
-                        repository.getBoardgameFromKeyword(searchQuery)
-                            .stateIn(viewModelScope).value
-                    }
-
-                )
-            }
-        }
-    }
 
     fun updateDisplayOrder(displayOrder: DISPLAY_ORDER) {
         _state.update {

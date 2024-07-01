@@ -46,12 +46,6 @@ fun DisplayScreen(
 
     viewModel.updateDisplayBoardgame(state.boardgameItemList, state.searchQuery)
 
-    LaunchedEffect(key1 = Unit) {
-        for(boardgameItem in state.boardgameItemList) {
-            viewModel.updateBoardgameItemFromApi(boardgameItem)
-        }
-    }
-
     Scaffold(
         floatingActionButton =
         {
@@ -68,7 +62,7 @@ fun DisplayScreen(
 
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxSize()  
                 .padding(paddingValues)
                 .padding(bottom = 16.dp)
         ) {
