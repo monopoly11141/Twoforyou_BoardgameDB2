@@ -18,8 +18,10 @@ fun Navigation(navController: NavHostController) {
         startDestination = Screen.DisplayScreen
     ) {
         composable<Screen.DetailScreen> {
+            val args = it.toRoute<Screen.DetailScreen>()
             DetailScreen(
-                navController = navController
+                navController = navController,
+                args.id
             )
         }
 

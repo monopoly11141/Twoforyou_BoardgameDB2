@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -120,7 +121,12 @@ fun BoardgameFilterDialog(
                         .fillMaxWidth()
                         .padding(16.dp)
                 ) {
-                    Text(text = "필터")
+                    Text(
+                        text = "필터",
+                        fontSize = 18.sp,
+                        modifier = Modifier
+                            .padding(4.dp)
+                    )
                 }
             }
         }
